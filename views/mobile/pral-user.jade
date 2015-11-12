@@ -1,0 +1,67 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+
+                .col-xs-12.text-center
+                    a(href="#", onclick="loadAvatar()")
+                        .circle-avatar
+                            -if(avatar != false){
+                                img(src="/images/uploads/people/#{user.id}.jpg").user-avatar
+                            -}else{
+                                img(src="/images/avatar.jpg").user-avatar
+                            -}
+                        p
+                            span.text-primary Editar
+
+                .col-xs-12.text-center
+                    table.table
+                        tbody
+                            tr
+                                td: h3.text-primary #{user.username}
+
+                            tr
+                                td: span #{user.name}
+
+                            tr
+                                td: span #{user.contact.phoneNumber}
+
+                            tr
+                                td: span #{user.contact.email}
+
+                            tr
+                                td: small.text-muted #{user.address.city}, #{user.address.state}, #{user.address.counrty}
+
+            .col-xs-12
+                .col-xs-12
+                    .inner-box
+                        .btn-group-xs.btn-group-justified
+
+                            a(href="/mbpass").btn.animsition-link
+                                .fa-stack.fa-1x
+                                    i.fa.fa-circle.fa-stack-2x
+                                    i.fa.fa-stack-1x.fa-inverse.fa-lock
+                                span.text-primary Cambiar clave
+
+
+
+    script(src="/bootbox/bootbox.min.js")
+    script.
+
+        function loadAvatar(){
+            var str = "<div class='col-xs-12'><div class='inner-box'><form enctype = 'multipart/form-data' role='form' method='POST' action='/uploader' id='form'><div class='col-xs-12'><div class='inner-box text-center'><strong>Cambiar foto de perfil</strong><p><input id='iava' type='file' name='avatar' accept='image/jpeg' class='custom-file-input' onchange='loadavatar()'></p></div></div></form></div></div>";
+
+            bootbox.alert(str).find(".modal-footer").css({'border-top': 'none'}).find('.btn').removeClass('btn-primary').addClass('btn-alert').attr('onclick', 'uploadavatar()');
+        }
+
+        function uploadavatar(){
+            if(document.getElementById('iava').value){
+                document.getElementById('form').submit();
+            }
+        }
+
+
+
+    include footer

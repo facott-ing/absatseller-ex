@@ -1,0 +1,26 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                .schedule-opt
+                    li: a(href="/mbiom").animsition-link
+                        h4.text-center: i.fa.fa-calculator
+                    li.li-border-right: a(href="/mbincl").animsition-link
+                        h4.text-center: i.fa.fa-usd
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box.text-center
+                        h2 Ventas del mes
+                        span.lead.text-warning.text-income $ #{monthlyincome}
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box.text-center
+                        h2 Total en ventas
+                        span.lead.text-income.text-success $ #{totalincome}
+
+
+    include footer

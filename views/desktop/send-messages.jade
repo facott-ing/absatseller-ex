@@ -1,0 +1,83 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1
+                | Mensajes enviados
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li.active Mensajes enviados
+        section.content
+            .row
+                .col-md-3
+                    button(role="button", data-toggle="modal" data-target="#myModal").btn.btn-block.btn-primary Nuevo mensaje
+                    .box.box-solid.margin-top-15
+                        .box-header.with-border
+                            h3.box-title Carpetas
+                        .box-body.no-padding
+                            ul.nav.nav-pills.nav-stacked
+                                li
+                                    a(href="/dktmessages")
+                                        i.fa.fa-inbox
+                                            span.i-span Bandeja de entrada
+                                        -if(cmessages > 0){
+                                            span.label.label-primary.pull-right #{cmessages}
+                                        -}
+                                li.active
+                                    a(href="/dktsmessages")
+                                        i.fa.fa-envelope-o
+                                        span.i-span Enviados
+                .col-md-9
+                    .box.box-primary
+                        .box-header.with-border
+                            h3.box-title Mensajes enviados
+                            .box-tools.pull-right
+                                .has-feedback
+                                    input(type="text", placeholder="Buscar").form-control.input-sm
+                                    span.glyphicon.glyphicon-search.form-control-feedback
+                        .box-body.no-padding
+                            .table-responsive.mailbox-messages
+                                -if(csendme > 0){
+                                    table.table.table-hover
+                                        tbody
+                                            each m in sendme
+                                                tr.bg-messages-send
+                                                    td(width="5%"): i.fa.fa-share.text-yellow
+                                                    td(width="8%"): a(href="/v-dktsellers/#{m.id}"): span.text-ellips yo
+                                                    td(width="67%")
+                                                        span.text-ellips
+                                                            b #{m.subject}
+                                                            small.i-span #{m.messages[0].message}
+                                                    td(width="5%")
+                                                    td(width="15%")
+                                                        - var day = 1000*60*60*24;
+                                                        - var xx = new Date().getTime()
+                                                        - var ee = m.datetime
+                                                        - var millis = ((new Date().getTime()) - (m.datetime.getTime()));
+                                                        - var min = (millis/(1000*60)) >> 0;
+                                                        - var hours = (millis/1000/60/60) >> 0;
+                                                        - var days = (millis/1000/60/60/24) >> 0;
+                                                        -if(min < 60){
+                                                            small Hace #{min} min
+                                                        -}
+                                                        -if(hours >= 1 && hours < 24){
+                                                            small hace #{hours} horas
+                                                        -}
+                                                        -if(days >= 1 && days <= 3){
+                                                            small hace #{days} dias
+                                                        -}
+                                                        -if(days > 3){
+                                                            smal #{m.datetime.toLocaleString().substring(0, 10)}
+                                                        -}
+
+                                -}else{
+                                    p.text-center.text-muted No tiene mensajes :(
+                                -}
+            include form/new-message
+    include addons/footer
+    include addons/form-validator

@@ -1,0 +1,60 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1 Agenda de citas
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li.active Agenda
+        section.content
+            .row
+                .col-md-12
+                    .box
+                        .box-body
+                            table.table.table-bordered
+                                thead
+                                    tr
+                                        th(width="10%").text-center
+                                            |Fecha
+                                            br
+                                            small.text-muted (Año-Mes-Dia)
+                                        th(width="10%").text-center Hora
+                                        th(width="10%").text-center Estado
+                                        th(width="32%") Cliente
+                                        th(width="32%") Vendedor
+                                        th(width="6%")
+
+                                tbody
+                                    each s in schedules
+                                        tr
+                                            td.text-center
+                                                - var now = new Date()
+                                                -if(s.Date.toISOString().substring(0, 10) === now.toISOString().substring(0, 10)){
+                                                    span.label.label-warning Hoy
+                                                -}else{
+                                                    | #{s.Date.toISOString().substring(0, 10)}
+                                                -}
+                                            td.text-center #{s.oppointmentStar}
+                                            td.text-center
+                                                -if(s.status === 1){
+                                                    span.label.label-primary Pendiente
+                                                -}
+                                                -if(s.status === 2){
+                                                    span.label.label-success Atendida
+                                                -}
+                                            td #{s.client.name}
+                                            td #{s.seller.name}
+                                            td.text-center
+                                                a(href="/v-dktschedule/#{s.id}").btn.btn-default.btn-xs
+                                                    i.fa.fa-search
+                                                    span.i-span Ver
+
+
+
+    include addons/footer
+    include addons/form-validator

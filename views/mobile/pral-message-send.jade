@@ -1,0 +1,27 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                .schedule-opt
+                    li: a(href="mbme").animsition-link
+                        h4.text-center Bandeja
+                    li: a(href="mbme-s").animsition-link
+                        h4.text-center Enviados
+                    li: a(href="/n-mbme").animsition-link
+                        h4.text-center
+                            i.fa.fa-plus
+                .list-group
+                    -if(count === 0){
+                        h3.text-center.text-muted Buzon de enviados vacio.
+                    -}else{
+                        each m in messages
+                            a(href="/vs-mbme/#{m.id}").list-group-item.msg-read.animsition-link
+                                span.badge.btn-success enviado
+                                span #{m.subject}
+                                br
+                                span.text-muted A: #{m.to.length} Usu.
+                                span.contact-name #{m.datetime.toLocaleString()}
+                    -}
+    include footer

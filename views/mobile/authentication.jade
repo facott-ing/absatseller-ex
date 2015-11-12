@@ -1,0 +1,70 @@
+doctype html
+html
+    head
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Sistema de gestion de ventas ..::.. AbsatSeller
+        link(rel="stylesheet", href="/bootstrap/dist/css/bootstrap.min.css")
+        link(rel="stylesheet", href="/bootstrap/dist/css/bootstrap-theme.min.css")
+        link(rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css")
+        link(rel="stylesheet" href="/stylesheets/stylemobile-authen.css")
+        link(rel="stylesheet" href="/animsition/dist/css/animsition.min.css")
+
+        script(src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js")
+        script(src="/bootstrap/dist/js/bootstrap.min.js")
+        script(src="/animsition/dist/js/jquery.animsition.min.js")
+
+    body
+        .animsition
+            .row
+                .container
+                    .col-xs-12
+                        h1.logo.text-center AbsatSeller
+                        h6.legend-logo.text-center Administra sus ventas
+
+            .row
+                .container
+                    .col-xs-12
+                        form(action="/authentication", method="POST").form-horizontal
+                            fieldset
+                                .input-group
+                                    span.input-group-addon
+                                        i.fa.fa-user
+                                    input(type="text", name="username", placeholder="Nombre de Usuario").form-control.input-transparent
+                                .input-group
+                                    span.input-group-addon
+                                        i.fa.fa-lock
+                                    input(type="password", name="pass", placeholder="Contraseña").form-control.input-transparent
+                                .col-lg-12
+                                    p.text-center
+                                        button(type="submit").btn.btn-authe.btn-lg.animsition-link
+                                            strong Ingresar
+
+            .row
+                .container
+                    .col-xs-12
+                        h6.text-center.text-footer power by facott
+
+
+        script().
+            $(document).ready(function () {
+                $(".animsition").animsition({
+                    inClass: 'fade-in',
+                    outClass: 'fade-out',
+                    inDuration: 1500,
+                    outDuration: 800,
+                    linkElement: '.animsition-link',
+                    linkElement   :   'a:not([target="_blank"]):not([href^=#])',
+                    loading: true,
+                    loadingParentElement: 'body', //animsition wrapper element
+                    loadingClass: 'animsition-loading',
+                    unSupportCss: ['animation-duration',
+                        '-webkit-animation-duration',
+                        '-o-animation-duration'
+                    ],
+                    //"unSupportCss" option allows you to disable the "animsition" in case the css property in the array is not supported by your browser.
+                    //The default setting is to disable the "animsition" in a browser that does not support "animation-duration".
+                    overlay: false,
+                    overlayClass: 'animsition-overlay-slide',
+                    overlayParentElement: 'body'
+                });
+            });

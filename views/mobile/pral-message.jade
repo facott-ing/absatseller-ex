@@ -1,0 +1,45 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                .schedule-opt
+                    li: a(href="/mbme").animsition-link
+                        h4.text-center Bandeja
+                    li: a(href="/mbme-s").animsition-link
+                        h4.text-center Enviados
+                    li: a(href="/n-mbme").animsition-link
+                        h4.text-center
+                            i.fa.fa-plus
+
+                .list-group
+                    -if(count === 0){
+                        h3.text-center.text-muted Buzon de entrada vacio
+                    -}else{
+                        each m in messages
+
+                            - var statemsg = m.to
+                            - var state = null
+
+                            each s in statemsg
+                                -if(s.seller === user.id) state = s.readstate
+
+                            -if(state === 2){
+                                a(href="/v-mbme/#{m.id}").list-group-item.msg-read.animsition-link
+                                    span.badge.label-x Leido
+                                    span #{m.from.name}
+                                    br
+                                    span #{m.datetime.toLocaleString()}
+                            -}else{
+                                a(href="/v-mbme/#{m.id}").list-group-item.animsition-link
+                                    span.badge Sin leer
+                                    span #{m.from.name}
+                                    br
+                                    span.text-muted #{m.datetime.toLocaleString()}
+                            -}
+                    -}
+
+
+
+    include footer

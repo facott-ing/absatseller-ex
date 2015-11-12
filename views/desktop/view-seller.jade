@@ -1,0 +1,104 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+
+    .content-wrapper
+        section.content-header
+            h1
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li
+                    a(href="/dktsellers")
+                        i.fa.fa-home
+                        | vendedores
+                li.active #{seller.name}
+        section.content
+            .row
+                .col-md-4.col-sm-6.col-xs-12
+                    .pull-left.image
+                        img(src="/images/uploads/people/#{seller.id}.jpg", alt="User Image").img-seller-sec.img-thumbnail.img-circle
+                    .pull-left.margin-left-pull
+                        h4 #{seller.name}
+                        h5.text-muted
+                            i.fa.fa-phone
+                            span.i-span #{seller.contact.phoneNumber}
+                            br
+                            i.fa.fa-envelope-o
+                            span.i-span #{seller.contact.email}
+                        h5.text-primary
+                            i.fa.fa-map-marker
+                            span.i-span #{seller.address.city}, #{seller.address.state}
+                        h5
+                            -if(seller.status === 1){
+                                .label.label-success
+                                    i.fa.fa-user
+                                    span.i-span Activo
+                            -}
+
+                .col-md-4.col-sm-6.col-xs-12
+                    table.table
+                        tr
+                            td: a(href="#").btn.btn-xs.btn-primary: i.fa.fa-envelope-o: span.i-span Escribirle mesaje
+                            td: a(href="#").btn.btn-xs.btn-default: i.fa.fa-edit: span.i-span Editar info
+                            -if(seller.status === 1001){
+                                td: a(href="#").btn.btn-xs.btn-success: i.fa.fa-edit: span.i-span Activar
+                            -}
+                            td: a(href="#").btn.btn-xs.btn-warning: i.fa.fa-warning: span.i-span Desactivar
+
+
+            .row
+                .col-md-12
+                    .box
+                        .box-header.with-border
+                            h3.box-title Información de ventas
+                        .box-body
+                            .row
+                                .col-md-8
+                                    p.text-center
+                                        strong Ventas realizadas por el vendedor
+                                    table.table.table-bordered
+                                        tr
+                                            th(width="15%").text-center Fecha
+                                            th(width="55%").text-center Cliente
+                                            th(width="10%").text-center Estado
+                                            th(width="20%").text-center Precio
+                                        - var income = 0
+                                        each sale in sesales
+                                            tr
+                                                td.text-center #{sale.date.toISOString().substring(0, 10)}
+                                                td: a(href="v-dktsale/#{sale.id}") #{sale.client.name}
+                                                td
+                                                    -if(sale.status === 1){
+                                                        span.label.label-primary Pendiente
+                                                    -}
+                                                td.text-center $ #{sale.price.toLocaleString()}
+                                            - income = income + sale.price
+
+                                .col-md-4
+                                    p.text-center
+                                        strong Recaudos del vendedor
+                                    .info-box.bg-aqua
+                                        span.info-box-icon
+                                            i.ion.ion-social-usd-outline
+                                        .info-box-content
+                                            span.info-box-text recaudo en ventas
+                                            span.info-box-number $ #{income.toLocaleString()}
+                                            .progress
+                                                .progress-bar.w53
+                                            .progress-description Total en ventas realizadas por el vendedor
+
+                                    .info-box.bg-aqua-active
+                                        span.info-box-icon
+                                            i.ion.ion-android-walk
+                                        .info-box-content
+                                            span.info-box-text Citas atendidas
+                                            span.info-box-number #{cappoint}
+                                            .progress
+                                                .progress-bar.w100
+                                            .progress-description Citas atendidas por el vendedor
+
+    include addons/footer

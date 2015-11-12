@@ -1,0 +1,62 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1
+                | Visita Programada
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Home
+                li
+                    a(href="/dktschedule")
+                        i.fa.fa-calendar-o
+                        | Agenda
+                li.active Visita
+        section.invoice
+            .row
+                .col-xs-12
+                    h2.page-header
+                        i.fa.fa-calendar
+                        span.i-span Información
+            .row.invoice-info
+                .col-sm-4.invoice-col
+                    span Cliente:
+                    address
+                        strong #{schedule.client.name}
+                        br
+                        span.text-primary #{schedule.client.contact.phonenumbers[0].number}
+
+                .col-sm-4.invoice-col
+                    span Atendida por el vendedor:
+                    address
+                        strong #{schedule.seller.name}
+                        br
+                        span.text-primary #{schedule.seller.contact.phoneNumber}
+
+                .col-sm-4.invoice-col
+                    b Fecha:
+                    span.i-span #{schedule.Date.toLocaleString().substring(0, 9)}
+                    small (Formato fecha "Mes/Dia/año")
+                    br
+                    b Hora
+                    span.i-span #{schedule.oppointmentStar}
+                    small (Formato de hora 24H)
+                    br
+                    b Direccion:
+                    span.i-span #{schedule.client.addresses[0].street}
+                    br
+                    b Ciudad:
+                    span.i-span.text-muted #{schedule.client.addresses[0].city}, #{schedule.client.addresses[0].state}
+
+            .row
+                .col-xs-12.table-responsive
+                    h4 Descripcion de la cita
+                    p #{schedule.comments[0].comment}
+
+
+
+    include addons/footer

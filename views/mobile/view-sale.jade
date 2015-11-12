@@ -1,0 +1,80 @@
+extends layoutmobile
+block content
+    include head
+    include addons/alert-win
+    section.main-alt
+        .row
+            .col-xs-12
+                nav.nav-main
+                    a(href="/mbsale").btn.btn-trans.double-border-right.animsition-link
+                        i.fa.fa-chevron-left.fa-2x
+                    span Mis ventas
+                .list-group
+                    .schedule-left
+                        .col-xs-12.text-center
+                            .fa-stack.fa-2x.icon-user
+                                i.fa.fa-circle.fa-stack-2x
+                                i.fa.fa-stack-1x.fa-inverse.fa-user
+                    .schedule-right-alt
+                        .col-xs-12.top-1
+                            h3.lead #{sale.client.name}
+                                br
+                                small.text-muted Nombre del cliente
+                    .schedule-arrow
+                        i.fa.fa-check.fa-1.arrow-right
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box.text-center
+                       span.lead
+                            .fa-stack.fa-1x
+                                i.fa.fa-circle.fa-stack-2x
+                                i.fa.fa-stack-1x.fa-inverse.fa-calendar
+                            | #{sale.date.toISOString().substring(0, 10)}
+
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box.text-center
+                        h2.text-success $ #{sale.price}
+
+                        h3.lead
+                            small
+                                .fa-stack.fa-1x
+                                    i.fa.fa-circle.fa-stack-2x
+                                    i.fa.fa-stack-1x.fa-inverse.fa-usd
+                                | Precio de la venta
+
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        span.label.label-warning
+                            i.fa.fa-comment
+                            | Descripción
+                        span.lead #{sale.comments[0].comment}
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        - var c = 0
+                        each a in sale.client.addresses
+                            h4.lead
+                                small.text-info Direccion #{c+1}
+                                br
+                                em: strong #{a.street}
+                                br
+                                span.text-primary
+                                    each t in sale.client.contact.phonenumbers
+                                        | #{t.number} -
+                                br
+                                small #{a.city}, #{a.state}, #{a.country}
+                            -c++
+                        h3.lead.text-center
+                            small
+                                .fa-stack.fa-1x
+                                    i.fa.fa-circle.fa-stack-2x
+                                    i.fa.fa-stack-1x.fa-inverse.fa-map-marker
+                                | Domicilio de entrega.
+
+    include footer

@@ -1,0 +1,44 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+
+    .content-wrapper
+        section.content-header
+            h1 Vendedores del sistema
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li.active Vendedores
+
+        section.content
+            .row
+                .col-md-12
+                    .box
+                        .box-header.with-border
+                            h3.box-title Lista de vendedores.
+                            .box-tools.pull-right
+                                button(role="button", data-toggle="modal" data-target="#myModal").btn.btn-box-tool
+                                    i.fa.fa-plus
+                                    span.i-span Nuevo
+                        .box-body.no-padding
+                            -if(cseller <= 0){
+                                p.text-center
+                                    span.text-muted No se encuentran vendedores registrados
+                            -}else{
+                                ul.users-list.clearfix
+                                    each seller in sellers
+                                        li.image
+                                            img(src="/images/uploads/people/#{seller.id}.jpg", alt="User Image").img-seller-sec.img-thumbnail
+                                            a(href="/v-dktseller/#{seller.id}").users-list-name #{seller.name}
+                                            span.users-list-date #{seller.address.city}
+                            -}
+
+            include form/new-seller
+
+
+
+    include addons/footer
+    include addons/form-validator

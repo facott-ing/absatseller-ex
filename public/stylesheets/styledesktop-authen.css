@@ -1,0 +1,59 @@
+@import url(http://fonts.googleapis.com/css?family=Kaushan+Script);
+
+html, body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: -webkit-linear-gradient(#3C8DBC, #357FA9) fixed; /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#3C8DBC, #357FA9) fixed; /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#3C8DBC, #357FA9) fixed; /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#3C8DBC, #357FA9) fixed; /* Standard syntax */
+}
+.bg{
+
+}
+
+.logo{
+    font-family: 'Kaushan Script', cursive;
+    color: #fff;
+    text-shadow: 0px 2px 3px #040404;
+    padding-top: 40px;
+}
+.legend-logo{
+    font-family: 'Kaushan Script', cursive;
+    color: #525252;
+    padding-bottom: 20px;
+}
+
+.input-group{
+    margin-bottom: 14px;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+form .btn-authe{
+    color: #525252;
+    width: 80%;
+    background-color: rgba(247, 247, 247, .60);
+}
+.input-addon-style{
+    background-color: #525252;
+    color: #F64B2F;
+    text-shadow: 0px 2px 3px #fff;
+}
+.input-transparent{
+    background-color: rgba(82, 82, 82, .70);
+    border: none;
+}
+
+.text-footer{
+    font-family: 'Kaushan Script', cursive;
+    text-decoration: underline;
+    color: rgba(247, 247, 247, .50);
+    padding-top: 40px;
+}
+
+.desktop{
+    width: 500px;
+    overflow: hidden;
+    margin: 0 auto;
+}

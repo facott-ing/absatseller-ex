@@ -1,0 +1,194 @@
+extends layoutmobile
+block content
+    include head
+    include addons/validator-adds
+    include addons/alert-win
+    section.main-alt
+        .row
+            .col-xs-12
+                nav.nav-main
+                    a(href="/mbcl").btn.btn-trans.double-border-right.animsition-link
+                        i.fa.fa-chevron-left.fa-2x
+                    span Mis clientes
+
+                .col-xs-12.formulario
+                    form(method="POST", action="/mbcl-new", id="form").form-horizontal
+                        input(type="hidden", name="seller", value="#{user.id}")
+                        fieldset
+                            legend.text-muted.text-center
+                                i.fa.fa-plus.i
+                                |Agregar un cliente
+                            .col-xs-12
+                                .form-group
+                                    input(type="text", name="name", placeholder="Nombres y apellidos del cliente").form-control.input
+                                p.text-center.text-muted
+                                    i.fa.fa-user
+                                    span Nombres y apellidos de la persona que se va a registrar como cliente en el sistema.
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    input(type="tel", name="phone", placeholder="Numero de telefono").form-control.input
+                                p.text-center.text-muted
+                                    i.fa.fa-phone
+                                    span Numero de telefonico de contacto del cliente
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    input(type="text", name="address", placeholder="Direccion del domicilio").form-control.input
+                                p.text-muted.text-center
+                                    i.fa.fa-map-marker
+                                    span Direccion del comicilio del cliente
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    input(type="email", name="email", placeholder="Correo Electronico").form-control.input
+                                p.text-muted.text-center
+                                    i.glyphicon.glyphicon-envelope
+                                    span Direccion del correo electronico del cliente
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    select(name="country").form-control.select
+                                        option(value="Colombia") Colombia
+                                p.text-center.text-muted
+                                    i.fa.fa-map-marker
+                                    span País donde se encuentra el cliente.
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    select(name="state", onchange="loadcities()", id="state", title="Seleccione un departamento").form-control.select
+                                        option(value="") Seleccione un departamento
+                                        each state in co_pack
+                                            option(value="#{state}") #{state}
+                                p.text-center.text-muted
+                                    i.fa.fa-map-marker
+                                    span Departamento o estado donde se encuentra el cliente.
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    select(name="city", id="cities").form-control.select
+                                        option(value="") Seleccione una ciudad
+                                p.text-center.text-muted
+                                    i.fa.fa-map-marker
+                                    span Ciudad donde se encuentra el cliente.
+                            legend
+
+                            .col-xs-12.spance-botton
+                                p.text-center
+                                    button(type="submit").btn.btn-lg.label-x.btn-submit
+                                        i.fa.fa-plus
+                                        span Agregar
+
+
+
+
+
+
+                    script(type="text/javascript").
+                        function loadcities(){
+                            $.ajax({
+                                method: "POST",
+                                url: "/cities",
+                                data: {state:document.getElementById('state').value}
+                            })
+                                .done(function (response) {
+                                    var e = document.getElementById('cities');
+                                    e.innerHTML = response;
+                                });
+                        }
+
+                        $(document).ready(function(){
+                            $('#form')
+                                .find('[name="state"]')
+                                    .change(function(e) {
+                                        // revalidate the color when it is changed
+                                        $('#form').bootstrapValidator('revalidateField', 'state');
+                                    })
+                                    .end()
+
+                                .find('[name="city"]')
+                                    .change(function(e) {
+                                        // revalidate the color when it is changed
+                                        $('#form').bootstrapValidator('revalidateField', 'city');
+                                    })
+                                    .end()
+                                    .bootstrapValidator({
+                                        excluded: ':disabled',
+                                        feedbackIcons: {
+                                            valid: 'glyphicon glyphicon-ok',
+                                            invalid: 'glyphicon glyphicon-remove',
+                                            validating: 'glyphicon glyphicon-refresh'
+                                        },
+                                        fields: {
+                                            state: {
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'Por favor seleccione un departamento.'
+                                                    }
+                                                }
+                                            },
+                                            city:{
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'Por favor seleccione un departamento.'
+                                                    }
+                                                }
+                                            },
+                                            name:{
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'El nombre del cliente es requerido.'
+                                                    },
+                                                    stringLength: {
+                                                        min: 6,
+                                                        message: 'El nombre de la persona como minimo debe contener mas de 6 caracteres'
+                                                    },
+                                                    regexp: {
+                                                        regexp: /^[a-zA-Z\s]+$/,
+                                                        message: 'The first name can only consist of alphabetical and space'
+                                                    }
+                                                }
+                                            },
+                                            phone:{
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'El telefono del cliente es requerido.'
+                                                    }
+                                                }
+                                            },
+                                            address:{
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'La dirección del cliente es requerida.'
+                                                    }
+                                                }
+                                            },
+                                            email:{
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'El correo electronico del cliente es requerida.'
+                                                    },
+                                                    emailAddress: {
+                                                        message: 'Esto no es un correo electronico.'
+                                                    }
+                                                }
+                                            }
+
+                                        }
+
+                                    });
+
+                        });
+
+
+
+
+
+
+    include footer

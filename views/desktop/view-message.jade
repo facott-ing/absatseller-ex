@@ -1,0 +1,89 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1
+                | Mensajes enviados
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li.active Mensajes enviados
+        section.content
+            .row
+                .col-md-3
+                    button(role="button", data-toggle="modal" data-target="#myModal").btn.btn-block.btn-primary Nuevo mensaje
+                    .box.box-solid.margin-top-15
+                        .box-header.with-border
+                            h3.box-title Carpetas
+                        .box-body.no-padding
+                            ul.nav.nav-pills.nav-stacked
+                                li
+                                    a(href="/dktmessages")
+                                        i.fa.fa-inbox
+                                            span.i-span Bandeja de entrada
+                                        -if(cmessages > 0){
+                                            span.label.label-primary.pull-right #{cmessages}
+                                        -}
+                                li
+                                    a(href="/dktsmessages")
+                                        i.fa.fa-envelope-o
+                                        span.i-span Enviados
+                .col-md-9
+                    .box.box-primary
+                        .box-header.with-border
+                            h3.box-title Lectura de mensajes
+                            .box-tools.pull-right
+                                .has-feedback
+                                    input(type="text", placeholder="Buscar").form-control.input-sm
+                                    span.glyphicon.glyphicon-search.form-control-feedback
+                        .box-body.no-padding
+                            .mailbox-read-info
+                                h3 #{message.subject}
+                                h5
+                                    -if(message.from._id.toString() === user.id){
+                                        span From: yo
+                                    -}else{
+                                        span From: #{message.from.name}
+                                    -}
+
+                                    span.mailbox-read-time.pull-right #{message.datetime.toLocaleString()}
+                                h5
+                                    | To:
+                                    each to in list
+                                        span.text-primary.i-span #{to.name},
+
+
+                            .mailbox-read-message
+                                p #{message.messages[0].message}
+                                .margin-top-15
+                                .list-group
+                                    -if(message.messages[1]){
+                                        h4
+                                            span.label.label-warning
+                                                i.fa.fa-comments
+                                                span.i-span Mensajes
+                                        - var msgs = message.messages;
+                                        - var x = msgs.sort(function(a, b){ return(new Date(b.date) - new Date(a.date))});
+                                        - var depre = x.length - 1;
+                                        - var cnt = 0;
+                                        each c in x
+                                            -if(cnt != depre){
+                                                .list-group-item
+                                                    .list-group-item-heading
+                                                        h5
+                                                            span.text-primary #{c.username}
+                                                            small.i-span.text-muted #{c.date.toLocaleString()}
+                                                    .list-group-item-text: p #{c.message}
+                                            -}
+                                            - cnt++
+                                    -}
+
+                        .box-footer
+
+            include form/new-message
+    include addons/footer
+    include addons/form-validator

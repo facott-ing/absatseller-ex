@@ -1,0 +1,129 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                nav.nav-main
+                    a(href="/mbme").btn.btn-trans.double-border-right.animsition-link
+                        i.fa.fa-chevron-left.fa-2x
+                    span Mis Mensajes
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box.text-center
+                        .circle-x.avatar-size-medium
+                            img(src="https://pbs.twimg.com/profile_images/488746508104511488/G7A2o24c.jpeg").avatar-size-medium
+                        span.contact-name
+                            | #{message.from.name}
+                            br
+                            small.text-muted #{message.datetime.toLocaleString()}
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box.text-center
+                        span.lead.text-muted.contact-name Asunto:
+                        span #{message.subject}
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        span.label.label-warning
+                            i.fa.fa-comment
+                            | Mensaje
+                        span.lead #{message.messages[0].message}
+
+            div(id="pencil").col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        .btn-group-xs.btn-group-justified
+                            a(href="#", onclick="comment()").btn
+                                .fa-stack.fa-1x.text-primary
+                                    i.fa.fa-circle.fa-stack-2x
+                                    i.fa.fa-stack-1x.fa-inverse.fa-pencil
+                                span.text-primary Hacer Comentario
+
+
+            .col-xs-12
+                .col-xs-12
+                    .inner-box
+                        .comment.col-xs-12
+                            div(id="refresh").text-center.refresh.text-muted
+                                i.fa.fa-refresh.fa-spin
+                            div(id="cmtlist")
+                            -if(message.messages[1]){
+                                - var cnt = 0
+                                - var msgs = message.messages
+                                - var x = msgs.sort(function(a, b){ return(new Date(b.date) - new Date(a.date))});
+                                - var depre = x.length - 1;
+                                each c in x
+                                    -if(cnt != depre){
+                                        .comentario
+                                            span.label.label-info
+                                                i.fa.fa-comments-o
+                                                | #{c.username}
+                                            small.text-muted.contact-name #{c.date.toLocaleString()}
+                                            br
+                                            span.lead #{c.message}
+                                    -}
+                                    - cnt++
+                            -}
+
+
+
+        div(id="boxfix").fix-comment-box
+
+    div(id="boxcomment").box-comment
+        .form-horizontal
+            input(type="hidden", id="username", value="#{user.username}")
+            textarea(name="message", id="msgvalue").form-control
+            a(href="#boxfix", onclick="cmtsend()").btn.label-x.btn-submit-alt
+                i.fa.fa-send
+                span Enviar
+
+    script.
+        var pencil = document.getElementById('pencil');
+        var box = document.getElementById('boxcomment');
+        var fix = document.getElementById('boxfix');
+        var cmtbox = document.getElementById('cmtlist');
+        var refresh = document.getElementById('refresh');
+
+        function comment(){
+            pencil.style.display = 'none';
+            fix.style.display = 'block';
+            box.style.display = 'block';
+        }
+
+        function cmtsend(){
+            $.ajax({
+                method: "POST",
+                url: "/n-msg/#{message.id}",
+                data: {comment:document.getElementById('msgvalue').value}
+            })
+                    .done(function (response) {
+                        if(response === true){
+                            refresh.style.display = 'block';
+                            pencil.style.display = 'block';
+                            box.style.display = 'none';
+
+                            var d = new Date().toLocaleString().substring(19, 29);
+                            var user = document.getElementById('username').value;
+                            var comme = document.getElementById('msgvalue').value;
+
+                            var element = document.createElement('div');
+                            var inner = document.createTextNode(document.getElementById('msgvalue').value);
+                            element.setAttribute('class', 'commentario');
+                            element.appendChild(inner);
+
+                            element.innerHTML = '<span class="label label-info"><i class="fa fa-comments-o"></i>'+user+'</span><small class="text-muted contact-name">'+d+'</small><br><span class="lead">'+comme+'</span>';
+                            cmtbox.insertBefore(element, cmtbox.childNodes[0]);
+
+                            refresh.style.display = 'none';
+
+                        }
+                    });
+        }
+
+
+
+    include footer

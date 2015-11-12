@@ -1,0 +1,39 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                .schedule-opt
+                    li: a(href="/n-mbcl").animsition-link
+                        h4.text-center
+                            i.fa.fa-plus
+
+                .list-group
+                    -if (count === 0){
+                        h3.text-center.text-muted No Existen Clientes :(
+                    -}else{
+                        each client in clients
+
+                            a(href="/v-mbcl/#{client.id}").list-group-item.list-group-nopadding.animsition-link
+                                .schedule-left
+                                    .col-xs-12.text-center
+                                        .fa-stack.fa-2x.icon-user
+                                            i.fa.fa-circle.fa-stack-2x
+                                            i.fa.fa-stack-1x.fa-inverse.fa-user
+
+                                .schedule-right-alt
+                                    .col-xs-12.top-1
+                                        h3.lead #{client.name}
+                                            br
+                                            small.text-muted Nombre del cliente
+
+
+                                .schedule-arrow
+                                    i.fa.fa-chevron-right.fa-1.arrow-right
+
+
+
+                    -}
+
+    include footer

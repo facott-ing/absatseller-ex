@@ -1,0 +1,85 @@
+extends layoutmobile
+block content
+    include head
+
+    section.main
+        .row
+            ul
+                li
+                    span(id="citas").badge.badge-alert
+                        -if(countappo > 0){
+                            | #{countappo}
+                        -}
+                    a(href="mbsv").animsition-link
+                        i.fa.fa-3x.fa-calendar
+                        p.menu-tittel-item: strong Agenda de Visitas
+                li
+                    a(href="#").animsition-link
+                        i.fa.fa-3x.fa-archive
+                        p.menu-tittel-item: strong Productos
+                li
+                    a(href="/mbsale").animsition-link
+                        i.fa.fa-3x.fa-shopping-cart
+                        p.menu-tittel-item: strong Ventas
+                li
+                    a(href="/mbiom").animsition-link
+                        i.fa.fa-3x.fa-calculator
+                        p.menu-tittel-item: strong Promedios
+                li
+                    a(href="mbcl").animsition-link
+                        i.fa.fa-3x.fa-users
+                        p.menu-tittel-item: strong Mis Clientes
+                li
+                    span(id="mensajes").badge.badge-alert
+                        -if(countmsgs > 0){
+                            | #{countmsgs}
+                        -}
+                    a(href="/mbme").animsition-link
+                        i.fa.fa-3x.fa-envelope-o
+                        p.menu-tittel-item: strong Mis Mensajes
+                li
+                    a(href="/mbuser").animsition-link
+                        i.fa.fa-3x.fa-gears
+                        p.menu-tittel-item: strong Cuenta de Usuario
+                li
+                    a(href="/mblout").animsition-link
+                        i.fa.fa-3x.fa-power-off
+                        p.menu-tittel-item: strong Salir
+
+    script(type="text/javascript").
+        function load(){
+            $.ajax({
+                method: "POST",
+                url: "/ld-appo",
+                data: {state:'hola'}
+            }).done(function (response) {
+                        var e = document.getElementById('citas');
+                        e.innerHTML = response;
+                    });
+        }
+        function loadmsg(){
+            $.ajax({
+                method: "POST",
+                url: "/jx-messages",
+                data: {state:'hola'}
+            }).done(function (response) {
+                var e = document.getElementById('mensajes');
+                e.innerHTML = response;
+            });
+        }
+
+        $(document).ready(function(){
+            setInterval(
+                function(){
+                    load();
+                    loadmsg()
+                },
+                60000
+            );
+        });
+
+
+
+    include footer
+
+

@@ -1,0 +1,48 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1 Agenda de citas
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li.active Pedidos
+        section.content
+            .row
+                .col-md-12
+                    .box
+                        .box-body
+                            table.table.table-bordered
+                                thead
+                                    tr
+                                        th(width="10%").text-center
+                                            | Fecha
+                                            br
+                                            small.text-muted (Año-Mes-Dia)
+                                        th(width="12%").text-center Estado
+                                        th(width="35%") Cliente
+                                        th(width="29%").text-center Ciudad
+                                        th(width="12%").text-center
+                                tbody
+                                    each s in sales
+                                        tr
+                                            td.text-center #{s.date.toISOString().substring(0, 10)}
+                                            td.text-center
+                                                -if(s.status === 1){
+                                                    span.label.label-primary Pendiente
+                                                -}
+                                                -if(s.status === 2){
+                                                    span.label.label-success despachado
+                                                -}
+                                            td #{s.client.name}
+                                            td.text-center.text-muted #{s.client.addresses[0].city}, #{s.client.addresses[0].state}
+                                            td.text-center
+                                                a(href="/v-dktsale/#{s.id}").btn.btn-default.btn-xs
+                                                    i.fa.fa-search
+                                                    span.i-span Ver
+    include addons/footer
+    include addons/form-validator

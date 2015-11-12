@@ -1,0 +1,73 @@
+aside.main-sidebar
+    section.sidebar
+        .user-panel
+            .pull-left.image
+                img(src="/images/uploads/people/#{user.id}.jpg", alt="Usuario").img-circle
+            .pull-left.info
+                p #{user.name}
+                small
+                    -if(user.permissions == 1){
+                        | Super Administrador
+                    -}
+                    -if(user.permissions == 2){
+                        | Administrador
+                    -}
+                    -if(user.permissions == 3){
+                        | Colaborador
+                    -}
+
+        ul.sidebar-menu
+            li.header Menu Principal
+            li.treeview
+                a(href="/dktsale")
+                    i.fa.fa-shopping-cart
+                    span Pedidos
+                    span.label.label-success.pull-right #{csales}
+            li.treeview
+                a(href="/dktschedule")
+                    i.fa.fa-calendar-o
+                    span Agenda de visitas
+            li.treeview
+                a(href="/dktmessages")
+                    i.fa.fa-envelope-o
+                    span Mensajes
+                    span.label.label-primary.pull-right #{cmessages}
+
+            li.treeview
+                a(href="#")
+                    i.fa.fa-users
+                    span Usiarios del sistema
+                    i.fa.fa-angle-left.pull-right
+                ul.treeview-menu
+                    -if(user.permissions === 1 || user.permissions === 2){
+                        li
+                            a(href="/dktusers")
+                                i.fa.fa-user
+                                | Administrativos
+                        li
+                            a(href="/dktsellers")
+                                i.fa.fa-user
+                                | Vendedores
+                    -}
+                    li
+                        a(href="/dktclient")
+                            i.fa.fa-user
+                            | Clientes
+            li.treeview
+                a(href="#")
+                    i.fa.fa-archive
+                    span Productos
+                    i.fa.fa-angle-left.pull-right
+                ul.treeview-menu
+                    li
+                        a(href="#")
+                            i.fa.fa-tags
+                            | Tipo de Productos
+                    li
+                        a(href="#")
+                            i.fa.fa-archive
+                            | Productos
+
+
+
+

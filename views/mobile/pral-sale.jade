@@ -1,0 +1,35 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                .schedule-opt
+                    li.schedule-opt-li
+                        h4.text-center
+                            i.fa.fa-shopping-cart
+                            | Mis ventas
+                .list-group
+                    -if (count === 0){
+                        h3.text-center.text-muted No has registrado ventas :(
+                    -}else{
+                        each sale in sales
+                            a(href="/v-mbsale/#{sale.id}").list-group-item.list-group-nopadding.animsition-link
+                                .schedule-left
+                                    .col-xs-12.text-center
+                                        .fa-stack.fa-2x.icon-user.text-success
+                                            i.fa.fa-circle.fa-stack-2x
+                                            i.fa.fa-stack-1x.fa-inverse.fa-shopping-cart
+
+                                .schedule-right-alt
+                                    .col-xs-12.top-2
+                                        span.lead.text-success #{sale.date.toLocaleString()}
+                                        br
+                                        span.lead #{sale.client.name}
+
+
+                                .schedule-arrow
+                                    i.fa.fa-chevron-right.fa-1.arrow-right
+                    -}
+
+    include footer

@@ -1,0 +1,47 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                nav.nav-main
+                    a(href="/mbiom").btn.btn-trans.double-border-right.animsition-link
+                        i.fa.fa-chevron-left.fa-2x
+                    span Calculador
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box.text-center
+                        h2 Datos fuente
+                        table.table.table-striped.table-bordered
+                            tbody
+                                tr
+                                    td: span.text-muted Valor total de venta
+                                    td: span #{results.precioVenta}
+
+                                tr
+                                    td: span.text-muted Incial
+                                    td: span #{results.inicial}
+
+                                tr
+                                    td: span.text-muted Cuotas
+                                    td: span #{results.cuotas}
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box.text-center
+                        h2.text-success Resultados
+                        table.table.table-striped.table-bordered
+                            tbody
+                                tr
+                                    td: span.text-muted Precio de Venta
+                                    td: span #{results.totalVenta}
+
+                                tr
+                                    td: span.text-muted Valor a financiar
+                                    td: span #{results.valorFinan}
+
+                                tr
+                                    td: span.text-muted Cuotas mensuales
+                                    td: span #{results.cuotaMen}
+
+    include footer

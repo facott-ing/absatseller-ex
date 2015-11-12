@@ -1,0 +1,112 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1
+                | Reporte de pedido
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Home
+                li
+                    a(href="/dktsale")
+                        i.fa.fa-shopping-cart
+                        | Pedidos
+                li.active Pedido
+        section.invoice
+            .row
+                .col-xs-12
+                    h2.page-header
+                        i.fa.fa-calendar
+                        span.i-span Detalles del pedido
+                        small.pull-right #{new Date().toISOString()}
+            .row.invoice-info
+                .col-sm-4.invoice-col
+                    | Cliente
+                    address
+                        strong #{sale.client.name}
+                        br
+                        | #{sale.client.addresses[0].street}
+                        br
+                        span.text-muted #{sale.client.addresses[0].city}, #{sale.client.addresses[0].state}
+                        br
+                        |Tel:
+                        a(href="tel:#{sale.client.contact.phonenumbers[0].number}").i-span #{sale.client.contact.phonenumbers[0].number}
+                        br
+                        |Email:
+                        a(href="mailto:#{sale.client.contact.mail}").i-span #{sale.client.contact.email}
+
+                .col-sm-4.invoice-col
+                    | Vendedor
+                    address
+                        strong #{sale.seller.name}
+                        br
+                        | Tel:
+                        a(href="tel:#{sale.seller.contact.phoneNumber}").i-span #{sale.seller.contact.phoneNumber}
+                        br
+                        | Email:
+                        a(href="mailto:#{sale.seller.contact.email}").i-span #{sale.seller.contact.email}
+
+                .col-sm-4.invoice-col
+                    b Ref:
+                    span.i-span #{sale.id.substring(0, 10)}
+                    br
+                    b Fecha da la orden:
+                    span.i-span #{sale.date.toISOString().substring(0, 10)}
+                    br
+                    br
+                    -if(sale.status === 2){
+                        h3.label.label-success
+                            i.fa.fa-check
+                            span.i-span Despachado
+                        br
+                    -}
+                    b Dirección de entrega:
+                    span.i-span #{sale.client.addresses[0].street}
+                    br
+                    span.text-muted #{sale.client.addresses[0].city}, #{sale.client.addresses[0].state}
+
+            .row
+                .col-xs-12.table-responsive
+                    h4 Descripcion del Pedido
+                    p #{sale.comments[0].comment}
+
+            .row
+                .col-xs-6
+                    p.lead Metodo de pago
+                    img(src="/AdminLTE/dist/img/credit/visa.png")
+                    img(src="/AdminLTE/dist/img/credit/mastercard.png")
+                    img(src="/AdminLTE/dist/img/credit/american-express.png")
+
+
+                .col-xs-6
+                    p.lead Recaudo de venta #{sale.date.toISOString().substring(0, 10)}
+                    .table-responsive
+                        table.table
+                            tr
+                                th Subtotal
+                                td $ #{sale.price.toLocaleString()}
+                            tr
+                                th Envio
+                                td $ 0.0
+                            tr
+                                th Total
+                                td $ #{sale.price.toLocaleString()}
+
+            .row.no-print
+                .col-xs-12
+                    a(href="/p-dktsale/#{sale.id}", target="_blank").btn.btn-default
+                        i.fa.fa-print
+                        span.i-span Imprimir
+
+                    -if(sale.status === 1){
+                        a(href="/up-dktsale/#{sale.id}").btn.btn-primary.pull-right
+                            i.fa.fa-check
+                            span.i-span Despachar pedido
+                    -}
+
+
+    include addons/footer

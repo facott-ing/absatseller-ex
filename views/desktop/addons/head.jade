@@ -1,0 +1,70 @@
+header.main-header
+
+    a(href="/dktprofile").logo
+        b.lg-ab AbsatSeller
+
+    div(role="navigation").navbar.navbar-static-top
+        a(href="#", data-toggle="offcanvas", role="button").sidebar-toggle
+            span.sr-only Navegacion
+
+
+        .navbar-custom-menu
+            ul.nav.navbar-nav
+                li.dropdown.messages-menu
+                    a(href="#", data-toggle="dropdown").dropdown-toggle
+                        i.fa.fa-envelope-o
+                        span.label.label-success #{cmessages}
+                    ul.dropdown-menu
+                        li.header tienes #{cmessages} mensajes
+                        li
+                            ul.menu
+                                -if(cmessages > 0){
+                                    - c = 0
+                                    each msg in messages
+                                        -if(c === 4){
+                                            break
+                                        -}else{
+                                            li
+                                                a(href="/v-dktsellers/#{msg.id}")
+                                                    .pull-left
+                                                        img(src="/images/uploads/people/#{msg.from._id}.jpg", alt="Usuario").img-circle
+                                                    h4
+                                                        | #{msg.ubject}
+                                                        small
+                                                            i.fa.fa-clock-o
+                                                            | 5min
+                                                    p #{msg.from.name}
+                                        -}
+                                        - c++
+                                -}else{
+                                    p.text-center
+                                        small.text-muted No hay mensajes Nuevos
+                                -}
+                        li.footer
+                            a(href="/dktmessages") Ver todos los mensajes
+
+
+                li.dropdown.user.user-menu
+                    a(href="#", data-toggle="dropdown").dropdown-toggle
+                        img(src="/images/uploads/people/#{user.id}.jpg", alt="Usuario").user-image
+                        span.hidden-xs #{user.name}
+
+                    ul.dropdown-menu
+                        li.user-header
+                            img(src="/images/uploads/people/#{user.id}.jpg", alt="Usuario").img-circle
+                            p.hidden-xs
+                                | #{user.name}
+                                small Usuario Administrativo
+
+                        li.user-body
+                            .col-xs-4.text-center
+                                a(href="#") Foto
+                            .col-xs-4.text-center
+                                a(href="#") Contraseña
+
+                        li.user-footer
+                            .pull-right
+                                a(href="/dktout").btn.btn-default.btn-flat Salir
+
+
+

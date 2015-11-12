@@ -1,0 +1,48 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1 Administrativos del sistema
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li.active Administrativos
+        section.content
+            .row
+                .col-md-12
+                    .box
+                        .box-header.with-border
+                            h3.box-title Lista de Administrativos.
+                            .box-tools.pull-right
+                                button(role="button", data-toggle="modal" data-target="#myModal").btn.btn-box-tool
+                                    i.fa.fa-plus
+                                    span.i-span Nuevo
+                        .box-body.no-padding
+                            -if(cusers <= 0){
+                                p.text-center
+                                    span.text-muted No se encuentran cuentas administrativas registradas
+                            -}else{
+                                ul.users-list.clearfix
+                                    each admin in users
+                                        li.image
+                                            img(src="/images/uploads/people/#{admin.id}.jpg", alt="User Image").img-seller-sec.img-thumbnail
+                                            .users-list-name
+                                                -if(admin.permissions === 0){
+                                                    span.label.label-danger
+                                                        i.fa.fa-times
+                                                -}else{
+                                                    span.label.label-success
+                                                        i.fa.fa-check
+                                                -}
+                                                span.i-span #{admin.name}
+                                            span.users-list-date #{admin.address.city}, #{admin.address.country}
+
+
+                            -}
+            include form/new-user
+    include addons/footer
+    include addons/form-validator

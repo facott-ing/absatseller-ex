@@ -1,0 +1,98 @@
+div(class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                h4.text-primary Registro de Vendedores
+            .modal-body
+                .col-xs-12.formulario
+                    form(method="POST", action="/n-dktsellers", role="form" data-toggle="validator", id="myForm")
+                        .col-xs-12
+                            .form-group
+                                label Nombre
+                                .input-group
+                                    .input-group-addon
+                                        i.fa.fa-user
+                                    input(type="text", name="name", minlength="10", data-error="El nombre es muy corto", autocomplete="off", required).form-control
+                                p.text-muted Nombre de la persona
+                                span.help-block.with-errors
+
+                        .col-xs-12
+                            .form-group
+                                label Telefono
+                                .input-group
+                                    .input-group-addon
+                                        i.fa.fa-phone
+                                    input(type="tel", name="phonenum", minlength="10",data-error="Numero celular no valido", autocomplete="off", required).form-control
+                                p.text-muted Telefono celular de contacto de la persona
+                                span.help-block.with-errors
+
+                        .col-xs-12
+                            .form-group
+                                label Email
+                                .input-group
+                                    .input-group-addon
+                                        |@
+                                    input(type="email", name="email", data-error="Direccion de correo electronico invalida", autocomplete="off", required).form-control
+                                p.text-muted Correo electronico de contacto de la persona
+                                span.help-block.with-errors
+
+                        .col-xs-12
+                            .form-group
+                                label Dirección
+                                .input-group
+                                    .input-group-addon
+                                        i.fa.fa-map-marker
+                                    input(type="text", name="address", minlength="6", data-error="La direccion del comicilio es muy corta", autocomplete="off", required).form-control
+                                p.text-muted Direccion del domicilio de la persona
+                                span.help-block.with-errors
+
+                        .col-xs-12
+                            .form-group
+                                label Departamento
+                                .input-group
+                                    .input-group-addon
+                                        i.fa.fa-map-marker
+                                    select(name="state", onchange="loadcities()", id="state", data-error="Debe seleccionar un departamento", required).form-control
+                                        option(value="") Seleccione el departamento
+                                        each state in co_pack
+                                            option(value="#{state}") #{state}
+                                p.text-muted Departamento donde esta ubicada la persona
+                                span.help-block.with-errors
+
+                        .col-xs-12
+                            .form-group
+                                label Ciudad
+                                .input-group
+                                    .input-group-addon
+                                        i.fa.fa-map-marker
+                                    select(name="city", id="cities", data-error="Debe seleccionar una ciudad", required).form-control
+                                        option(value="") Seleccione la ciudad
+                                p.text-muted Ciudad donde esta ubicacda la persona
+                                span.help-block.with-errors
+
+                        .col-xs-12
+                            .form-group
+                                h2.text-center
+                                    button(type="submit").btn.btn-submit.btn-lg
+                                        i.fa.fa-plus
+                                        span.i-span Registrar
+                    script(type="text/javascript").
+
+            .modal-footer.border-top-none
+
+script().
+
+    $('#myModal').modal('hide')
+    $('#myForm').validator()
+
+    function loadcities(){
+        $.ajax({
+            method: "POST",
+            url: "/cities",
+            data: {state:document.getElementById('state').value}
+        })
+                .done(function (response) {
+                    var e = document.getElementById('cities');
+                    e.innerHTML = response;
+                });
+    }

@@ -1,0 +1,10 @@
+script(src="/Relevant/js/modernizr.custom.95508.js")
+script.
+    // Safari reports success of list attribute, so doing ghetto detection instead
+    yepnope({
+        test : (!Modernizr.input.list || (parseInt($.browser.version) > 400)),
+        yep : [
+            '/Relevant/js/jquery.relevant-dropdown.js',
+            '/Relevant/js/load-fallbacks.js'
+        ]
+    });

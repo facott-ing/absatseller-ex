@@ -1,0 +1,89 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                .schedule-opt
+                    li: a(href="mbsv").animsition-link
+                        h4.text-center Hoy
+                    li: a(href="mbsv-t").animsition-link
+                        h4.text-center Todas
+                .list-group
+                    - var timenow = (new Date().getHours() * 100) + new Date().getMinutes();
+                    -if (count === 0){
+                        h3.text-center.text-muted No Tiene citas agendadas :(
+                    -}else{
+                        each cita in citas
+                            - var citatime = (parseInt(cita.oppointmentStar.substring(0, 2)) * 100);
+                            - citatime = citatime + parseInt(cita.oppointmentStar.substring(3, 5))
+
+                            - var citadate = cita.Date.toISOString().substring(0, 10).split('-').join('');
+                            - citadate = parseInt(citadate)
+                            - var daten = datenow
+                            - daten = daten.substring(0, 10).split('-').join('');
+                            - daten = parseInt(daten)
+                            -if(citadate >= daten || citadate >= daten && citatime > timenow){
+                                a(href="/v-mbsv/#{cita.id}").list-group-item.list-group-nopadding.animsition-link
+                                    .schedule-left
+                                        .col-xs-12.text-center
+                                            br
+                                            -if(cita.status === 2){
+                                                span.label.label-top.label-success: strong Cumplida
+                                            -}else{
+                                                span.label.label-top.label-primary: strong Pendiente
+                                            -}
+                                            p.lead
+                                                span.big #{cita.oppointmentStar.substring(0, 2)}
+                                                span.small #{cita.oppointmentStar.substring(2, 5)}
+                                                span h
+                                    .schedule-right
+                                        .col-xs-12
+                                            h4.lead
+                                                i.fa.fa-user
+                                                span.text-primary #{cita.client.name}
+                                                br
+                                                i.fa.fa-calendar
+                                                small #{cita.Date.toISOString().substring(0, 10)}
+                            -}else{
+                                -if(cita.status === 2){
+                                    a(href="/v-mbsv/#{cita.id}").list-group-item.list-group-nopadding.animsition-link
+                                        .schedule-left
+                                            .col-xs-12.text-center
+                                                br
+                                                span.label.label-top.label-success: strong Cumplida
+                                                p.lead
+                                                    span.big #{cita.oppointmentStar.substring(0, 2)}
+                                                    span.small #{cita.oppointmentStar.substring(2, 5)}
+                                                    span h
+                                        .schedule-right
+                                            .col-xs-12
+                                                h4.lead
+                                                    i.fa.fa-user
+                                                    span.text-primary #{cita.client.name}
+                                                    br
+                                                    i.fa.fa-calendar
+                                                    small #{cita.Date.toISOString().substring(0, 10)}
+                                -}else{
+                                    a(href="/v-mbsv/#{cita.id}").list-group-item.list-group-nopadding.animsition-link.opacity-medium
+                                        .schedule-left
+                                            .col-xs-12.text-center
+                                                br
+                                                span.label.label-top.label-danger: strong Perdida
+                                                p.lead
+                                                    span.big #{cita.oppointmentStar.substring(0, 2)}
+                                                    span.small #{cita.oppointmentStar.substring(2, 5)}
+                                                    span h
+                                        .schedule-right
+                                            .col-xs-12
+                                                h4.lead
+                                                    i.fa.fa-user
+                                                    span.text-primary #{cita.client.name}
+                                                    br
+                                                    i.fa.fa-calendar
+                                                    small #{cita.Date.toISOString().substring(0, 10)}
+                                -}
+                            -}
+                    -}
+
+    include footer

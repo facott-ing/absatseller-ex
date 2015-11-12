@@ -1,0 +1,56 @@
+header.col-xs-12
+    .row
+        -if (headmenu === true){
+            .head-menu.dropdown
+                button(type="button").btn.dropdown-toggle.btn-trans
+                    i.fa.fa-bars.fa-2x
+        -}
+        p.logo.text-center
+            span AbsatSeller
+
+    -if (headmenu === true){
+        .dropdownmenu.row.gradient-submenu
+            ul
+                li
+                    a(href="/mobile").animsition-link
+                        i.fa.fa-2x.fa-home
+                        p inicio
+
+                li
+                    a(href="/mbsv").animsition-link
+                        i.fa.fa-2x.fa-calendar
+                        p Agenda
+                li
+                    a(href="#").animsition-link
+                        i.fa.fa-2x.fa-archive
+                        p productos
+                li
+                    a(href="/mbsale").animsition-link
+                        i.fa.fa-2x.fa-shopping-cart
+                        p Vender
+                li
+                    a(href="/mbiom").animsition-link
+                        i.fa.fa-2x.fa-calculator
+                        p Promedio
+                li
+                    a(href="/mbcl").animsition-link
+                        i.fa.fa-2x.fa-users
+                        p Clientes
+                li
+                    a(href="/mbme").animsition-link
+                        i.fa.fa-2x.fa-envelope-o
+                        p Mensajes
+                li
+                    a(href="/mbuser").animsition-link
+                        i.fa.fa-2x.fa-gears
+                        p Cuenta
+                li
+                    a(href="/mblout").animsition-link
+                        i.fa.fa-2x.fa-power-off
+                        p Salir
+
+
+    -}
+
+
+

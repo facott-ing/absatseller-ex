@@ -1,0 +1,75 @@
+extends layoutmobile
+block content
+    include head
+    include addons/validator-adds
+    section.main-alt
+        .row
+            .col-xs-12
+                nav.nav-main
+                    a(href="/mbuser").btn.btn-trans.double-border-right.animsition-link
+                        i.fa.fa-chevron-left.fa-2x
+                    span Mi perfil
+
+                .col-xs-12.formulario
+                    form(id="form", method="POST", action="/mbpass", role="form").form-horizontal
+                        fieldset
+                            legend.text-muted.text-center
+                                i.fa.fa-lock
+                                span Cambio de Clave
+
+                            .col-xs-12
+                                .form-group
+                                    input(type="password", name="pass", data-minlength="6", id="pass" placeholder="Digite la nueva clave", required).form-control
+                                p.text-center.text-muted
+                                    i.fa.fa-lock
+                                    span La clave debe contener al menos 6 caracteres
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    input(type="password", name="cpass", id="passcon", placeholder="Confirme la clave", required).form-control
+                                p.text-center.text-muted
+                                    i.fa.fa-lock
+                                    span Confirme la nueva clave
+                            legend
+
+                            p.text-center
+                                button(type="submit").btn.btn-lg.label-x.btn-submit
+                                    i.fa.fa-lock
+                                    span Restaurar clave
+
+                    script(type="text/javascript").
+                        $(document).ready(function() {
+                            $('#form')
+                                    .bootstrapValidator({
+                                        excluded: ':disabled',
+                                        feedbackIcons: {
+                                            valid: 'glyphicon glyphicon-ok',
+                                            invalid: 'glyphicon glyphicon-remove',
+                                            validating: 'glyphicon glyphicon-refresh'
+                                        },
+                                        fields: {
+                                            pass: {
+                                                validators: {
+                                                    stringLength: {
+                                                        min: 6,
+                                                        message: 'La clave debe contener almenos 6 caracteres'
+                                                    }
+                                                }
+                                            },
+                                            cpass: {
+                                                validators: {
+                                                    identical: {
+                                                        field: 'pass',
+                                                        message: 'Las claves no coinciden'
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                        });
+
+
+
+
+    include footer

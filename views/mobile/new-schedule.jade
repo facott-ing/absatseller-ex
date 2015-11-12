@@ -1,0 +1,118 @@
+extends layoutmobile
+block content
+    include head
+    include addons/validator-adds
+    section.main-alt
+        .row
+            .col-xs-12
+                nav.nav-main
+                    a(href="/v-mbcl/#{client.id}").btn.btn-trans.double-border-right
+                        i.fa.fa-chevron-left.fa-2x
+                    span #{client.name}
+
+                .list-group
+                    .schedule-left
+                        .col-xs-12.text-center
+                            .fa-stack.fa-2x.icon-user
+                                i.fa.fa-circle.fa-stack-2x
+                                i.fa.fa-stack-1x.fa-inverse.fa-user
+
+                    .schedule-right-alt
+                        .col-xs-12.top-1
+                            h3.lead #{client.name}
+                                br
+                                small.text-muted Nombre del cliente
+
+
+                    .schedule-arrow
+                        i.fa.fa-check.fa-1.arrow-right
+
+                .col-xs-12.formulario
+                    form(method="POST", action="/mbsv-new/#{client.id}", id="form").form-horizontal
+                        fieldset
+                            legend.text-muted.text-center
+                                i.fa.fa-plus.i
+                                |Agendar cita
+                            .col-xs-12
+                                .form-group
+                                    input(type="date", name="datec", placeholder="Fecha").form-control
+                                p.text-center.text-muted
+                                    i.fa.fa-calendar
+                                    span Dia y mes del año en la que se agendara la cita con el cliente.
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    input(type="time", name="timec", placeholder="Hora").form-control
+                                p.text-center.text-muted
+                                    i.fa.fa-calendar
+                                    span Hora del dia en la que se agendara la cita con el cliente.
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    textarea(name="description").form-control
+                                p.text-center.text-muted
+                                    i.fa.fa-pencil-square-o
+                                    span Información a tener el cuenta de la cita a programar.
+                            legend
+
+                            .col-xs-12.spance-botton
+                                p.text-center
+                                    button(type="submit").btn.btn-lg.label-x.btn-submit
+                                        i.fa.fa-plus
+                                        span Agendar
+
+                    script(type="text/javascript").
+                        $(document).ready(function() {
+                            $('#form')
+                                .find('[name="datec"]')
+                                    .change(function(e) {
+                                                    // revalidate the color when it is changed
+                                        $('#form').bootstrapValidator('revalidateField', 'datec');
+                                    })
+                                    .end()
+                                .find('[name="timec"]')
+                                    .change(function(e) {
+                                                    // revalidate the color when it is changed
+                                        $('#form').bootstrapValidator('revalidateField', 'timec');
+                                    })
+                                    .end()
+                                    .bootstrapValidator({
+                                        excluded: ':disabled',
+                                        feedbackIcons: {
+                                            valid: 'glyphicon glyphicon-ok',
+                                            invalid: 'glyphicon glyphicon-remove',
+                                            validating: 'glyphicon glyphicon-refresh'
+                                        },
+                                        fields: {
+                                            datec: {
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'Por favor asigne una fecha para la cita.'
+                                                    }
+                                                }
+                                            },
+                                            timec: {
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'Por favor asigne una hora para la cita.'
+                                                    }
+                                                }
+                                            },
+                                            description: {
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'Por favor asigne una hora para la cita.'
+                                                    },
+                                                    stringLength: {
+                                                        min: 20,
+                                                        message: 'La descripción de la cita debe ser mayor de 20 caracteres'
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    })
+                        });
+
+    include footer

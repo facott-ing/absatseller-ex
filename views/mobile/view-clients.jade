@@ -1,0 +1,97 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                nav.nav-main
+                    a(href="/mbcl").btn.btn-trans.double-border-right.animsition-link
+                        i.fa.fa-chevron-left.fa-2x
+                    span Mis clientes
+
+                .list-group
+                    .schedule-left
+                        .col-xs-12.text-center
+                            .fa-stack.fa-2x.icon-user
+                                i.fa.fa-circle.fa-stack-2x
+                                i.fa.fa-stack-1x.fa-inverse.fa-user
+
+                    .schedule-right-alt
+                        .col-xs-12.top-1
+                            h3.lead #{client.name}
+                                br
+                                small.text-muted Nombre del cliente
+
+                    .schedule-arrow
+                        i.fa.fa-check.fa-1.arrow-right
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        each t in client.contact.phonenumbers
+                            h2 #{t.number}
+                        h3.lead
+                         small
+                            .fa-stack.fa-1x
+                                 i.fa.fa-circle.fa-stack-2x
+                                 i.fa.fa-stack-1x.fa-inverse.fa-phone
+                            | Telefonos del cliente
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        h4
+                            a(href="mailto:#{client.contact.email}") #{client.contact.email}
+                        h3.lead
+                            small
+                                .fa-stack.fa-1x
+                                    i.fa.fa-circle.fa-stack-2x
+                                    i.fa.fa-stack-1x.fa-inverse.fa-envelope
+                                | Correo electronico
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        - var c = 0
+                        each a in client.addresses
+                            h4.lead
+                                small.text-info Direccion #{c+1}
+                                br
+                                em: strong #{a.street}
+                                br
+                                small #{a.city}, #{a.state}, #{a.country}
+                            -c++
+                        h3.lead
+                            small
+                                .fa-stack.fa-1x
+                                    i.fa.fa-circle.fa-stack-2x
+                                    i.fa.fa-stack-1x.fa-inverse.fa-map-marker
+                                | Ubicacion del domicilio del cliente
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        .btn-group-xs.btn-group-justified
+                            a(href="tel:#{client.contact.phonenumbers[0].number}").btn.btn
+                                .fa-stack.fa-1x
+                                    i.fa.fa-circle.fa-stack-2x
+                                    i.fa.fa-stack-1x.fa-inverse.fa-phone
+                                span.text-primary Llamar
+
+                            a(href="/n-mbsv/#{client.id}").btn.animsition-link
+                                .fa-stack.fa-1x
+                                    i.fa.fa-circle.fa-stack-2x
+                                    i.fa.fa-stack-1x.fa-inverse.fa-plus
+                                span.text-primary Agendar cita
+
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        .btn-group-xs.btn-group-justified
+                            a(href="#").btn.animsition-link
+                                .fa-stack.fa-1x.text-danger
+                                    i.fa.fa-circle.fa-stack-2x
+                                    i.fa.fa-stack-1x.fa-inverse.fa-edit
+                                span.text-danger Eliminar
+
+    include footer

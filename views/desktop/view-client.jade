@@ -1,0 +1,103 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li
+                    a(href="/dktclient")
+                        i.fa.fa-users
+                        | Clientes
+                li.active #{client.name}
+        section.content
+            .row
+                .col-md-7.col-sm-6.col-xs-12
+                    .pull-left.image
+                        img(src="/images/avatar.jpg", alt="User Image").img-seller-sec.img-thumbnail.img-circle
+                    .pull-left.margin-left-pull
+                        h4 #{client.name}
+                        h5.text-muted
+                            i.fa.fa-phone
+                            span.i-span #{client.contact.phonenumbers[0].number}
+                            br
+                            i.fa.fa-envelope-o
+                            span.i-span #{client.contact.email}
+                        h5.text-primary
+                            i.fa.fa-map-marker
+                            span.i-span #{client.addresses[0].city}, #{client.addresses[0].state}
+                        p.text-muted
+                            span #{client.addresses[0].street}
+
+
+
+
+            .row
+                .col-md-12
+                    .box
+                        .box-header.with-border
+                            h3.box-title Información de compras
+                            .box-tools
+                                .pull-right
+                                    button(role="button", data-toggle="modal" data-target="#myModal").btn.btn-box-tool
+                                        i.fa.fa-plus
+                                        span.i-span Agendar cita
+                        .box-body
+                            .row
+                                .col-md-8
+                                    p.text-center
+                                        strong Compras realizadas por el cliente
+                                    table.table.table-bordered
+                                        tr
+                                            th(width="15%").text-center Fecha
+                                            th(width="55%").text-center Cliente
+                                            th(width="10%").text-center Estado
+                                            th(width="20%").text-center Precio
+                                        - var income = 0
+                                        each sale in clsales
+                                            tr
+                                                td.text-center #{sale.date.toISOString().substring(0, 10)}
+                                                td: a(href="v-dktsale/#{sale.id}") #{sale.client.name}
+                                                td
+                                                    -if(sale.status === 1){
+                                                        span.label.label-primary Pendiente
+                                                    -}
+                                                td.text-center $ #{sale.price.toLocaleString()}
+                                            - income = income + sale.price
+                                .col-md-4
+                                    p.text-center
+                                        strong Recaudos del vendedor
+                                    .info-box.bg-aqua
+                                        span.info-box-icon
+                                            i.ion.ion-social-usd-outline
+                                        .info-box-content
+                                            span.info-box-text Compras
+                                            span.info-box-number $ #{income.toLocaleString()}
+                                            .progress
+                                                .progress-bar.w53
+                                            .progress-description Total en compras realizadas por el cliente
+
+
+                                    p.text-center
+                                        strong Vendedor asociado
+                                    -if(client.seller === null){
+                                        h5.text-center
+                                            span.text-info No tiene vendedor asociado
+                                    -}else{
+                                        .info-box.bg-seller-in-client
+                                            span.info-box-icon
+                                                img(src="/images/uploads/people/#{seller.id}.jpg").img-thumbnail.img-circle.img-peque
+                                            .info-box-content
+                                                span.info-box-text Vendedor asociado
+                                                .progress
+                                                    .progress-bar.w53
+                                                .progress-description #{seller.name}
+                                    -}
+            include form/new-schedule
+    include addons/footer
+    include addons/form-validator

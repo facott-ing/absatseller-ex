@@ -1,0 +1,67 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1 Clientes de la empresa
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li.active Clientes
+        section.content
+            .row
+                .col-md-12
+                    .box
+                        .box-header.with-border
+                            button(role="button", data-toggle="modal" data-target="#myModal").btn.btn-box-tool
+                                i.fa.fa-plus
+                                span.i-span Nuevo Cliente
+                            .box-tools
+                                input(type="text", placeholder="Buscar").form-control.input-sm
+                                span.glyphicon.glyphicon-search.form-control-feedback
+                        .box-body.no-padding
+                            -if(cclients <= 0){
+                                p.text-center
+                                    span.text-muted No se encuentran cuentas administrativas registradas
+                            -}else{
+                                table(id="datatable").table.table-bordered.table-hover
+                                    thead
+                                        tr
+                                            th(whidth="5%").text-center #
+                                            th(width="34%") Nombre del Cliente
+                                            th(width="25%") Email
+                                            th(width="12%") Ciudad
+                                            th(width="12%") Departamento
+                                            th(width="12%") País
+                                    tbody
+                                        - ctn = 1
+                                        each c in clients
+                                            tr
+                                                td.text-center #{ctn}
+                                                td: a(href="/v-dktclient/#{c.id}") #{c.name}
+                                                td #{c.contact.email}
+                                                td.text-muted #{c.addresses[0].city}
+                                                td.text-muted #{c.addresses[0].state}
+                                                td.text-muted #{c.addresses[0].country}
+                                            - ctn++
+                                    tfoot
+                                        tr
+                                            th(whidth="5%").text-center #
+                                            th(width="34%") Nombre del Cliente
+                                            th(width="25%") Email
+                                            th(width="12%") Ciudad
+                                            th(width="12%") Departamento
+                                            th(width="12%") País
+
+
+
+                            -}
+            include form/new-client
+    script(src="/AdminLTE/plugins/datatables/jquery.dataTables.js", type="text/javascript")
+    script(src="/AdminLTE/plugins/datatables/dataTables.bootstrap.js", type="text/javascript")
+    include addons/footer
+    include addons/form-validator
+

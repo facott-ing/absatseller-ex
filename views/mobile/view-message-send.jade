@@ -1,0 +1,35 @@
+extends layoutmobile
+block content
+    include head
+    section.main-alt
+        .row
+            .col-xs-12
+                nav.nav-main
+                    a(href="/mbme-s").btn.btn-trans.double-border-right.animsition-link
+                        i.fa.fa-chevron-left.fa-2x
+                    span Mis mensajes enviados
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box.text-center
+                        h4.lead Mí
+                        small.text-muted Escrito por
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        span.lead.text-muted.contact-name Asunto:
+                        span #{message.subject}
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        span.text-muted Para:
+                        br
+                        each t in senders
+                            span.label-to.label-primary #{t.username}
+            .col-xs-12.border-botton
+                .col-xs-12
+                    .inner-box
+                        span.label.label-warning
+                            i.fa.fa-comment
+                            | Mensaje
+                        span.lead #{message.messages[0].message}
+    include footer

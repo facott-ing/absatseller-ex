@@ -1,0 +1,64 @@
+div(class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            .modal-header
+                h4.text-primary Agendar citas
+            .modal-body
+                .col-xs-12.formulario
+                    form(method="POST", action="/n-dktschedule", role="form" data-toggle="validator", id="myForm")
+                        input(type="hidden", name="client", value="#{client.id}")
+                        -if(client.seller === null){
+                            .col-xs-12
+                                .form-group
+                                    label Seleccione vendedor
+                                    .seller-list-check
+                                        ul.users-list.clearfix
+                                            each se in sellers
+                                                li.image
+                                                    img(src="/images/uploads/people/#{se.id}.jpg", alt="User Image").img-thumbnail.img-peque
+                                                    span.users-list-name #{se.name}
+                                                    input(type="radio", name="seller", value="#{se.id}", data-error="Debe seleccionar un vendedor", autocomplete="off", required)
+                                    p.text-muted El cliente no esta asociado a ningun vendedor, por favor seleccione uno.
+                                    span.help-block.with-errors
+                        -}else{
+                            input(type="hidden", name="seller", value="#{client.seller}")
+                        -}
+
+                        .col-xs-6
+                            .form-group
+                                label Fecha
+                                .input-group
+                                    input(type="date", name="datec", id="datepi", data-error="Debe especificar la fecha de la cita", autocomplete="off", required).form-control
+
+
+                                    .input-group-addon
+                                        i.fa.fa-calendar
+                                p.text-muted Fecha en la que se agendara la cita
+                                span.help-block.with-errors
+
+                        .col-xs-6
+                            .form-group
+                                label Hora
+                                .input-group
+                                    input(type="time", name="hour", data-error="Debe especificar la fecha de la cita", autocomplete="off", required).form-control
+                                    .input-group-addon
+                                        i.fa.fa-clock-o
+                                p.text-muted Fecha en la que se agendara la cita
+                                span.help-block.with-errors
+
+                        .col-xs-12
+                            .form-group
+                                label Hora
+                                textarea(name="descrip", data-error="Debe realizar una descripcion de la cita", autocomplete="off", required).form-control
+
+                                p.text-muted Información de la cita a tener en cuenta por parte del vendedor asignado
+                                span.help-block.with-errors
+
+                        .col-xs-12
+                            .form-group
+                                h2.text-center
+                                    button(type="submit").btn.btn-submit.btn-lg
+                                        i.fa.fa-plus
+                                        span.i-span Agendar cita
+
+            .modal-footer.border-top-none

@@ -1,0 +1,41 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+    .content-wrapper
+        section.content-header
+            h1 Tipo de productos
+            ol.breadcrumb
+                li
+                    a(href="/dktprofile")
+                        i.fa.fa-home
+                        | Inicio
+                li.active Tipo de Productos
+        section.content
+            .row
+                .col-md-12
+                    .box
+                        .box-header.with-border
+                            h3.box-title Lista de tipo de productos.
+                            .box-tools.pull-right
+                                button(role="button", data-toggle="modal" data-target="#myModal").btn.btn-box-tool
+                                    i.fa.fa-plus
+                                    span.i-span Nuevo
+                        .box-body.no-padding
+                            table.table.table-bordered
+                                thead
+                                    tr
+                                        th(width="10%").text-center #
+                                        th(width="%").text-center Nombre
+                                        th(width="12%").text-center Acción
+                                tbody
+                                    -if(cusers <= 0){
+                                        p.text-center
+                                            span.text-muted No se encuentran tipo de productos en el sistema
+                                    -}else{
+                                        e
+
+                                    -}
+            include form/new-user
+    include addons/footer
+    include addons/form-validator

@@ -1,0 +1,106 @@
+div(class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true")
+    .modal-dialog
+        .modal-content
+            form(method="POST", action="/n-dktmessage", role="form" data-toggle="validator", id="myForm")
+                input(type="hidden", id="para", name="para")
+                .modal-header
+                    h4.text-primary Nuevo mensaje
+                .modal-body
+                    .col-xs-12.formulario
+
+                        .col-xs-12
+                            .form-group
+                                .input-group
+                                    input(type="checkbox", onchange="sendtoall(this)", name="toall").flat-red
+                                    span.i-span Seleccione si desea enviar el correo a todos los vendedores.
+
+                        .col-xs-12
+                            .form-group
+                                div(id="box-users").u-box
+                                    ul(id="list-users").list-group
+
+                                .input-group
+                                    .input-group-addon
+                                        i.fa.fa-users
+                                    input(id="lista", type="text", placeholder="Para:" , name="topara", data-error="El mensaje debe tener un remitente", autocomplete="off", required, onkeyup="bycanon(this)").form-control
+                                p.text-muted A quien va dirigido el mensaje
+                                span.help-block.with-errors
+
+                        .col-xs-12
+                            .form-group
+                                .input-group
+                                    .input-group-addon
+                                        i.fa.fa-comment-o
+                                    input(type="text", name="subject", placeholder="Asunto:", data-error="Debe describir un asunto del mensaje", autocomplete="off", required).form-control
+                                p.text-muted Asunto del mensaje
+                                span.help-block.with-errors
+                        .col-xs-12
+                            .form-group
+                                textarea(name="message", placeholder="Escribir el mensaje aqui..", data-error="Debe escribir un mensaje", required).textarea.editor
+                                span.help-block.with-errors
+
+                .modal-footer.border-top-none
+                    .pull-right
+                        button(type="submit").btn.btn-primary
+                            i.fa.fa-envelope-o
+                            span.i-span Enviar
+
+
+script().
+    $('#myModal').modal('hide');
+    $('#myForm').validator();
+
+    function sendtoall(e){
+        var l = document.getElementById('lista');
+        if(e.checked == true){
+            l.value = '@Todos';
+            l.disabled = true;
+        }
+        if(e.checked == false){
+            l.value = '';
+            l.disabled = false;
+        }
+    }
+
+    function bycanon(e){
+
+        var box = document.getElementById('box-users');
+        var list = document.getElementById('list-users');
+        if(e.value.length === 0){
+            box.style.display = 'none';
+        }else{
+            box.style.display = 'block';
+        }
+        $.ajax({
+            method: "POST",
+            url: "/dktlusers",
+            data: {canon:e.value}
+        })
+                .done(function (response) {
+                    list.innerHTML = response;
+                });
+    }
+
+
+    function selectedto(e){
+        var to = document.getElementById('para');
+        var para = to.value;
+        var users = para.split(',');
+        var names = para.split(',');
+        var exist = users.indexOf(e.id) != -1
+
+        if(exist === false)
+            users.push(e.id)
+        names.push(e.rev)
+
+        users.splice(0, 1);
+        names.splice(0, 1);
+
+        to.value = users.toString();
+
+        document.getElementById('lista').value = names.toString();
+
+        document.getElementById('box-users').style.display = 'none';
+
+
+    }

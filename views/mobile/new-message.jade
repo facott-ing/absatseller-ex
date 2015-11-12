@@ -1,0 +1,152 @@
+extends layoutmobile
+block content
+    include head
+    include addons/validator-adds
+
+    #box.box-sellers-bgback
+        .col-xs-12
+            .col-xs-12.box-in.inner-box
+                .col-lg-12.box-list
+                    .list-group.list-ga
+                        each seller in sellers
+                            a(href="#", id="item-#{seller.id}", onclick="listsenders('#{seller.id}', '#{seller.name}')").list-group-item.list-group-nopadding
+                                .circle
+                                    img(src="https://pbs.twimg.com/profile_images/488746508104511488/G7A2o24c.jpeg")
+                                span.text-primary.contact-name #{seller.name}
+
+
+    section.main-alt
+        .row
+            .col-xs-12
+                nav.nav-main
+                    a(href="/mbme").btn.btn-trans.double-border-right.animsition-link
+                        i.fa.fa-chevron-left.fa-2x
+                    span Mis mensajes
+
+            .col-xs-12.formulario
+                .col-xs-12
+                    form(method="POST", action="/n-mbme", id="form").form-horizontal
+                        fieldset
+                            legend.text-muted.text-center
+                                i.fa.fa-plus.i
+                                | Nuevo mensaje
+
+                            .col-xs-12
+                                .form-group
+                                    input(type="hidden", name="senders", placeholder="A quien o quienes va dirigido", id="input-senders")
+                                    .input-senders
+                                        h3(onclick="showbox()").lead.text-center.text-primary
+                                            i.fa.fa-plus
+                                            span Presiona para agregar destinatario
+                                        #senders.text-center
+
+                                p.text-center.text-muted
+                                    i.fa.fa-user
+                                    span Remitentes del mensaje
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    input(type="text", name="subject", placeholder="Asunto").form-control.input
+                                p.text-center.text-muted
+                                    i.fa.fa-user
+                                    span Asunto del mensaje
+                            legend
+
+                            .col-xs-12
+                                .form-group
+                                    textarea(name="message").form-control
+                                p.text-center.text-muted
+                                    i.fa.fa-pencil-square-o
+                                    span Mensaje que se desea enviar.
+                            legend
+
+                            .col-xs-12.spance-botton
+                                p.text-center
+                                    button(type="submit").btn.btn-lg.label-x.btn-submit
+                                        i.fa.fa-send
+                                        span Enviar
+
+                    script.
+                        var sendersList = [];
+                        var e = document.getElementById('box');
+                        var senders = document.getElementById('senders');
+                        var inputsellers = document.getElementById('input-senders');
+
+                        function showbox(){
+                            e.style.display = 'block';
+                        }
+
+                        function listsenders(idseller, name){
+                            var html = senders.innerHTML;
+                            var idse = "'"+idseller+"'";
+                            var element = '<div id="'+idseller+'" class="label label-primary label-font-big"><i class="fa fa-remove" onclick="removesender('+idse+')"></i><span>'+name+'</span></div><br><br>';
+                            senders.innerHTML = html + element;
+                            sendersList.push(idseller);
+                            e.style.display = 'none';
+
+                            // remove fron list
+                            var idsea = "item-"+idseller;
+                            document.getElementById(idsea).style.display = 'none';
+
+                            // set into input
+                            inputsellers.value = sendersList;
+                        }
+
+                        function removesender(idseller){
+                            //remove from array
+                            sendersList.splice( $.inArray(idseller, sendersList) ,1 );
+
+                            // remove from DOM
+                            var removel = document.getElementById(idseller);
+                            senders.removeChild(removel);
+
+                            // insert into list
+                            var idsea = "item-"+idseller;
+                            document.getElementById(idsea).style.display = 'block';
+
+                            // remove form input
+                            inputsellers.value = sendersList;
+                        }
+
+                        $(document).ready(function() {
+                            $('#form')
+                                    .bootstrapValidator({
+                                        excluded: ':disabled',
+                                        feedbackIcons: {
+                                            valid: 'glyphicon glyphicon-ok',
+                                            invalid: 'glyphicon glyphicon-remove',
+                                            validating: 'glyphicon glyphicon-refresh'
+                                        },
+                                        fields: {
+                                            message: {
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'No se a escrito el mensaje'
+                                                    },
+                                                    stringLength: {
+                                                        min: 20,
+                                                        message: 'La descripción de la cita debe ser mayor de 20 caracteres'
+                                                    }
+                                                }
+                                            },
+                                            senders: {
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'Debe elegir un usuario para enviar el mensaje.'
+                                                    }
+                                                }
+                                            },
+                                            subject: {
+                                                validators: {
+                                                    notEmpty: {
+                                                        message: 'Debe darle un asunto al mensaje que va enviar'
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                        });
+
+
+    include footer

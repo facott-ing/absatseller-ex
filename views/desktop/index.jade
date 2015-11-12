@@ -1,0 +1,125 @@
+extends layoutdesktop
+block content
+    include addons/head
+    include addons/aside
+
+    .content-wrapper
+        section.content-header
+            h1 Usuarios del sistema
+            ol.breadcrumb
+                li
+                    a(href="#")
+                        i.fa.fa-home
+                        | Inicio
+                li.active Usuarios
+
+        section.content
+            .row
+                .col-md-3.col-sm-6.col-xs-12
+                    .info-box
+                        span.info-box-icon.bg-aqua
+                            i.ion.ion-ios-people
+                        .info-box-content
+                            span.info-box-text Administrativos
+                            span.info-box-number #{cusers}
+                            small Cuentas
+                .col-md-3.col-sm-6.col-xs-12
+                    .info-box
+                        span.info-box-icon.bg-red
+                            i.ion.ion-ios-people
+                        .info-box-content
+                            span.info-box-text Vendedores
+                            span.info-box-number #{csellers}
+                            small Cuentas
+                .col-md-3.col-sm-6.col-xs-12
+                    .info-box
+                        span.info-box-icon.bg-green
+                            i.ion.ion-ios-people
+                        .info-box-content
+                            span.info-box-text Clientes
+                            span.info-box-number #{cclients}
+                            small Personas
+                .col-md-3.col-sm-6.col-xs-12
+                    .info-box.bg-green
+                        .info-box-icon
+                            i.fa.fa-shopping-cart
+                        .info-box-content
+                            span.info-box-text Pedidos
+                            span.info-box-number #{csales}
+                            .progress
+                                .progress-bar
+                            .progress-description Pedidos pendientes
+
+            .row
+                .col-md-7
+                    .box.box-info
+                        .box-header.with-border
+                            - var date_today = new Date().toUTCString().substring(5, 16)
+                            h3.box-title Agenda del dia
+                                small.text-muted.i-span #{date_today}
+                        .box-body.scroll-y-500.bg-info
+                            ul.timeline
+                                -if(cappointments > 0){
+                                    each appo in appointments
+                                        li.time-label: span.bg-orange #{appo.oppointmentStar}
+                                        li
+                                            i.fa.fa-user
+                                            .timeline-item
+                                                span.time
+                                                    i.fa.fa-clock-o
+                                                    span.i-span #{appo.oppointmentStar}
+                                                h3.timeline-header #{appo.seller.name}
+                                                .timeline-body
+                                                    | #{appo.comments[0].comment}
+                                                .timeline-footer
+                                                    a(href="#").btn.btn-info.btn-xs Ver cita
+                                -}else{
+                                    h3.text-center
+                                        span.text-primary No hay citas Agendadas para hoy.
+                                -}
+
+
+                .col-md-5
+                    .info-box.bg-aqua
+                        span.info-box-icon
+                            i.ion.ion-social-usd-outline
+                        .info-box-content
+                            span.info-box-text Ingreso en ventas
+                            span.info-box-number $ #{income}
+                            .progress
+                                .progress-bar.w53
+                            .progress-description Total en ventas gestionadas por el Sistema
+
+                    .info-box.bg-aqua-active
+                        span.info-box-icon
+                            i.ion.ion-android-walk
+                        .info-box-content
+                            span.info-box-text Citas del dia
+                            span.info-box-number #{cappointments}
+                            .progress
+                                .progress-bar.w100
+                            .progress-description Citas Para demostraciones en el dia
+
+                    .box.box-primary
+                        .box-header.with-border
+                            h3.box-title Pedidos pendientes
+                        .box-body
+                            ul.products-list.product-list-in-box
+                                -if(csales > 0){
+                                    each sale in sales
+                                        li.item
+                                            .product-img: img(src="/images/uploads/people/#{sale.seller._id}.jpg", alt="Usuario").img-circle
+                                            .product-info
+                                                a(href="#").product-title #{sale.seller.name}
+                                                    span.label.label-info.pull-right #{sale.price.toLocaleString()}
+                                                span.product-description #{sale.comments[0].comment}
+                                -}else{
+                                    h4.text-center
+                                        span.text-muted No hay pedidos pendientes.
+                                -}
+
+                        .box-footer.text-center
+                            a(href="#").uppercase Ver todos los pedidos
+
+
+    include addons/footer
